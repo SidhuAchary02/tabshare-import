@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="styles.css" />
+  <title>Import Tab Group</title>
 </head>
 <body>
-  <h3>Import Tab Group</h3>
-  <button id="import">Open Tabs</button>
+  <h2>Import Tab Group</h2>
+  <button id="open">Open in Extension</button>
 
-  <script src="import.js"></script>
+  <script>
+    const EXTENSION_ID = "nhkmmfakleemmcikjahghhodkhoeleok"; // your real ID
+
+    document.getElementById("open").onclick = () => {
+      const hash = location.hash;
+      if (!hash) {
+        alert("Invalid link");
+        return;
+      }
+
+      const url = `chrome-extension://${EXTENSION_ID}/import.html${hash}`;
+      window.location.href = url;
+    };
+  </script>
 </body>
 </html>
