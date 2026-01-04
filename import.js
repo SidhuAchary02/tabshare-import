@@ -1,26 +1,43 @@
-const EXTENSION_ID = "nhkmmfakleemmcikjahghhodkhoeleok"; 
+(function() {
+  console.log("Import script loaded");
+  const hash = location.hash.slice(1);
+  console.log("Hash:", hash);
+  if (!hash) {
+    alert("Invalid link");
+    return;
+  }
 
-const hash = location.hash.slice(1);
-if (!hash) {
-  alert("Invalid link");
-  return;
-}
+  let data;
+  try {
+    data = JSON.parse(decodeURIComponent(atob(hash)));
+    console.log("Data:", data);
+  } catch (e) {
+    console.error("Error parsing data:", e);
+    alert("Invalid data");
+    return;
+  }
 
-let data;
-try {
-  data = JSON.parse(decodeURIComponent(atob(hash)));
-} catch (e) {
-  alert("Invalid data");
-  return;
-}
-
-document.getElementById("open").onclick = () => {
-  console.log("Sending message to extension", EXTENSION_ID, { action: 'importTabs', data: data });
-  chrome.runtime.sendMessage(EXTENSION_ID, { action: 'importTabs', data: data }, (response) => {
-    if (chrome.runtime.lastError) {
-      console.error("Error sending message:", chrome.runtime.lastError);
-    } else {
-      console.log("Message sent successfully");
+  document.getElementById("open").onclick = async () => {
+    console.log("Button clicked");
+    if (typeof chrome === 'undefined' || !chrome.tabs) {
+      alert("This page must be opened as a Chrome extension page.");
+      return;
     }
-  });
-};
+    const tabIds = [];
+    for (const tab of data.tabs) {
+      try {
+        const newTab = await chrome.tabs.create({ url: tab.url, active: false });
+        tabIds.push(newTab.id);
+      } catch (e) {
+        console.error("Failed to create tab:", tab.url, e);
+      }
+    }
+
+    if (tabIds.length > 0) {
+      const groupId = await chrome.tabs.group({ tabIds });
+      await chrome.tabGroups.update(groupId, { title: data.name, color: data.color });
+    }
+
+    window.close();
+  };
+})();

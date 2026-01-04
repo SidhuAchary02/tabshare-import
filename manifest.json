@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "TabShare",
+  "version": "1.0.0",
+  "description": "Share tab groups as a link",
+  "permissions": ["tabs", "tabGroups", "clipboardWrite"],
+  "icons": {
+    "16": "share-1-svgrepo.svg",
+    "48": "share-1-svgrepo.svg",
+    "128": "share-1-svgrepo.svg"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  }
+}

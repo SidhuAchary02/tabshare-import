@@ -1,0 +1,40 @@
+body {
+  font-family: system-ui;
+  background: #0f0f0f;
+  color: #fff;
+  width: 320px;
+  padding: 10px;
+}
+
+.group {
+  border: 1px solid #333;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+}
+
+ul {
+  padding-left: 18px;
+  max-height: 80px;
+  overflow-y: auto;
+}
+
+button {
+  width: 100%;
+  margin-top: 6px;
+  padding: 6px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+textarea {
+  width: 100%;
+  height: 60px;
+  margin-top: 8px;
+}
+
+.hidden {
+  display: none;
+}
