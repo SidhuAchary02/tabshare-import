@@ -15,5 +15,12 @@ try {
 }
 
 document.getElementById("open").onclick = () => {
-  chrome.runtime.sendMessage(EXTENSION_ID, { action: 'importTabs', data: data });
+  console.log("Sending message to extension", EXTENSION_ID, { action: 'importTabs', data: data });
+  chrome.runtime.sendMessage(EXTENSION_ID, { action: 'importTabs', data: data }, (response) => {
+    if (chrome.runtime.lastError) {
+      console.error("Error sending message:", chrome.runtime.lastError);
+    } else {
+      console.log("Message sent successfully");
+    }
+  });
 };
